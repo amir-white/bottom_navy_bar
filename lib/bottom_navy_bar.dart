@@ -194,9 +194,9 @@ class BottomNavyBarItem {
   BottomNavyBarItem({
     required this.icon,
     required this.title,
-    this.activeColor = Colors.blue,
+    this.activeColor = Colors.white,
     this.textAlign,
-    this.inactiveColor,
+    this.inactiveColor = Colors.black,
   });
 
   /// Defines this item's icon which is placed in the right side of the [title].
