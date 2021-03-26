@@ -9,9 +9,8 @@ import 'package:flutter/widgets.dart';
 /// Update [selectedIndex] to change the selected item.
 /// [selectedIndex] is required and must not be null.
 class BottomNavyBar extends StatelessWidget {
-
   BottomNavyBar({
-    Key? key,
+    Key key,
     this.selectedIndex = 0,
     this.showElevation = true,
     this.iconSize = 24,
@@ -20,11 +19,15 @@ class BottomNavyBar extends StatelessWidget {
     this.containerHeight = 56,
     this.animationDuration = const Duration(milliseconds: 270),
     this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
-    required this.items,
-    required this.onItemSelected,
+    @required this.items,
+    @required this.onItemSelected,
     this.curve = Curves.linear,
-  }) : assert(items.length >= 2 && items.length <= 5),
-       super(key: key);
+  })  : assert(items != null),
+        assert(items.length >= 2 && items.length <= 5),
+        assert(onItemSelected != null),
+        assert(animationDuration != null),
+        assert(curve != null),
+        super(key: key);
 
   /// The selected item is index. Changing this property will change and animate
   /// the item being selected. Defaults to zero.
@@ -35,7 +38,7 @@ class BottomNavyBar extends StatelessWidget {
 
   /// The background color of the navigation bar. It defaults to
   /// [Theme.bottomAppBarColor] if not provided.
-  final Color? backgroundColor;
+  final Color backgroundColor;
 
   /// Whether this navigation bar should show a elevation. Defaults to true.
   final bool showElevation;
@@ -65,7 +68,9 @@ class BottomNavyBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = backgroundColor ?? Theme.of(context).bottomAppBarColor;
+    final bgColor = (backgroundColor == null)
+        ? Theme.of(context).bottomAppBarColor
+        : backgroundColor;
 
     return Container(
       decoration: BoxDecoration(
@@ -117,15 +122,22 @@ class _ItemWidget extends StatelessWidget {
   final Curve curve;
 
   const _ItemWidget({
-    Key? key,
-    required this.item,
-    required this.isSelected,
-    required this.backgroundColor,
-    required this.animationDuration,
-    required this.itemCornerRadius,
-    required this.iconSize,
+    Key key,
+    @required this.item,
+    @required this.isSelected,
+    @required this.backgroundColor,
+    @required this.animationDuration,
+    @required this.itemCornerRadius,
+    @required this.iconSize,
     this.curve = Curves.linear,
-  })  : super(key: key);
+  })  : assert(isSelected != null),
+        assert(item != null),
+        assert(backgroundColor != null),
+        assert(animationDuration != null),
+        assert(itemCornerRadius != null),
+        assert(iconSize != null),
+        assert(curve != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -138,8 +150,7 @@ class _ItemWidget extends StatelessWidget {
         duration: animationDuration,
         curve: curve,
         decoration: BoxDecoration(
-          color:
-              isSelected ? item.activeColor.withOpacity(0.2) : backgroundColor,
+          color: isSelected ? Color(0xff0AB5F5) : backgroundColor,
           borderRadius: BorderRadius.circular(itemCornerRadius),
         ),
         child: SingleChildScrollView(
@@ -190,14 +201,14 @@ class _ItemWidget extends StatelessWidget {
 
 /// The [BottomNavyBar.items] definition.
 class BottomNavyBarItem {
-
   BottomNavyBarItem({
-    required this.icon,
-    required this.title,
-    this.activeColor = Colors.blue,
+    @required this.icon,
+    @required this.title,
+    this.activeColor = Colors.white,
     this.textAlign,
-    this.inactiveColor,
-  });
+    this.inactiveColor = Colors.black,
+  })  : assert(icon != null),
+        assert(title != null);
 
   /// Defines this item's icon which is placed in the right side of the [title].
   final Widget icon;
@@ -210,11 +221,10 @@ class BottomNavyBarItem {
   final Color activeColor;
 
   /// The [icon] and [title] color defined when this item is not selected.
-  final Color? inactiveColor;
+  final Color inactiveColor;
 
   /// The alignment for the [title].
   ///
   /// This will take effect only if [title] it a [Text] widget.
-  final TextAlign? textAlign;
-
+  final TextAlign textAlign;
 }
